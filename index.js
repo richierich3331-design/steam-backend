@@ -11,7 +11,7 @@ app.get("/steam/nearest-item", (req, res) => {
   if (!balance || !game) {
     return res.status(400).json({ error: "Missing params" });
   }
-
+// TODO: replace mock with real Steam data
   res.json({
     item_name: "AK-47 | Redline",
     price: 34.72,
