@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const { getSteamPrice } = require("./steamPriceCache.js");
+const { extractMarketHashName } = require("./steamUrlUtils.js");
+
 
 const app = express();
 app.use(cors());
