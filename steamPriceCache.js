@@ -52,3 +52,20 @@ export function getCachedSteamItem(market_hash_name, maxAgeMs) {
   return row;
 }
 
+export async function getSteamPrice(market_hash_name) {
+  const TWELVE_HOURS = 12 * 60 * 60 * 1000;
+
+  const cached = getCachedSteamItem(market_hash_name, TWELVE_HOURS);
+  if (cached) return cached;
+
+  const price = await updateSteamItemPrice(market_hash_name);
+  if (!price) return null;
+
+  return {
+    last_price: price,
+    currency: "EUR",
+    last_updated: Date.now()
+  };
+}
+
+
