@@ -41,10 +41,15 @@ app.get("/steam/price", async (req, res) => {
 
 /* SERVER START — ALWAYS LAST */
 app.post("/steam/validate-item", (req, res) => {
+  const { steam_url } = req.body;
+
+  const market_hash_name = extractMarketHashName(steam_url);
+
   res.json({
-    received_body: req.body
+    market_hash_name
   });
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
