@@ -7,6 +7,7 @@ const { extractMarketHashName } = require("./steamUrlUtils.js");
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 /* EXISTING ROUTE — KEEP SEPARATE */
 app.get("/steam/nearest-item", async (req, res) => {
