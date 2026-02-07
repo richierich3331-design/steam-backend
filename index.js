@@ -41,8 +41,11 @@ app.get("/steam/price", async (req, res) => {
 
 /* SERVER START — ALWAYS LAST */
 app.post("/steam/validate-item", (req, res) => {
-  res.json({ ok: true });
+  res.json({
+    received_body: req.body
+  });
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running");
