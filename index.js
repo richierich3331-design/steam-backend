@@ -40,15 +40,26 @@ app.get("/steam/price", async (req, res) => {
 });
 
 /* SERVER START — ALWAYS LAST */
-app.post("/steam/validate-item", (req, res) => {
+app.post("/steam/validate-item", async (req, res) => {
   const { steam_url } = req.body;
 
   const market_hash_name = extractMarketHashName(steam_url);
+  if (!market_hash_name) {
+    return res.status(400).json({ error: "invalid steam url" });
+  }
+
+  const data = await getSteamPrice(market_hash_name);
+  if (!data) {
+    return res.status(404).json({ error: "price not found" });
+  }
 
   res.json({
-    market_hash_name
+    market_hash_name,
+    price: data.last_price,
+    currency: data.currency
   });
 });
+
 
 
 const PORT = process.env.PORT || 3000;
