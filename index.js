@@ -41,7 +41,11 @@ app.get("/steam/price", async (req, res) => {
 
 /* SERVER START — ALWAYS LAST */
 app.post("/steam/validate-item", async (req, res) => {
-  const { steam_url } = req.body;
+  const { steam_url, balance } = req.body;
+
+  if (typeof balance !== "number") {
+    return res.status(400).json({ error: "missing balance" });
+  }
 
   const market_hash_name = extractMarketHashName(steam_url);
   if (!market_hash_name) {
@@ -53,12 +57,16 @@ app.post("/steam/validate-item", async (req, res) => {
     return res.status(404).json({ error: "price not found" });
   }
 
+  const allowed = data.last_price <= balance;
+
   res.json({
     market_hash_name,
     price: data.last_price,
-    currency: data.currency
+    currency: data.currency,
+    allowed
   });
 });
+
 
 
 
