@@ -59,12 +59,15 @@ app.post("/steam/validate-item", async (req, res) => {
 
   const allowed = data.last_price <= balance;
 
-  res.json({
-    market_hash_name,
-    price: data.last_price,
-    currency: data.currency,
-    allowed
-  });
+res.json({
+  market_hash_name,
+  price: data.last_price,
+  currency: data.currency,
+  allowed,
+  image_url:
+    "https://steamcommunity.com/market/image/730/" +
+    encodeURIComponent(market_hash_name)
+});
 });
 
 
