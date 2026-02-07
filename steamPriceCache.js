@@ -33,3 +33,22 @@ export async function updateSteamItemPrice(market_hash_name) {
 
   return price;
 }
+
+export function getCachedSteamItem(market_hash_name, maxAgeMs) {
+  const row = db
+    .prepare(`
+      SELECT last_price, currency, last_updated
+      FROM steam_items
+      WHERE market_hash_name = ?
+    `)
+    .get(market_hash_name);
+
+  if (!row) return null;
+
+  if (Date.now() - row.last_updated > maxAgeMs) {
+    return null; // stale
+  }
+
+  return row;
+}
+
